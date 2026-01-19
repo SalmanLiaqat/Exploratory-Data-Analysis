@@ -1,0 +1,65 @@
+
+
+-----Explore Measures---- 
+--Find the total sales
+--Find how many items are sold
+--Fidn the avg sellinmg price
+--Find the total number of orders
+--Find the total number of producst
+--Fid the total number of custoemr
+--Find the total numbe rof custoemrs that has placed an ordewr
+
+
+--Find the total sales
+SELECT *
+FROM gold.fact_sales
+WHERE price IS NULL
+
+SELECT
+SUM(sales_amount)
+FROM gold.fact_sales
+
+--Find how manmy items are sold
+SELECT
+SUM(quantity)
+FROM gold.fact_sales
+
+--Fidn the avg sellinmg price
+SELECT
+AVG(price)
+FROM gold.fact_sales
+
+--Find the total number of orders
+SELECT
+COUNT(DISTINCT order_number) AS total_orders
+FROM gold.fact_sales
+
+--Find the total number of products
+SELECT 
+DISTINCT COUNT(product_key)
+FROM gold.dim_products
+
+--Find the total number of customer
+SELECT
+COUNT(customer_id)
+FROM gold.dim_customers
+
+--Find the total number of customers that has placed an order
+SELECT 
+COUNT (DISTINCT customer_key) as totalcustomerorder
+FROM gold.fact_sales
+
+
+--Generate Report--
+
+SELECT 'Total Sales' AS measure_name, SUM(sales_amount) AS measure_value FROM gold.fact_sales
+UNION ALL
+SELECT 'Total Quantity', SUM(quantity) AS measure_value FROM gold.fact_sales
+UNION ALL
+SELECT 'Aaverage Price', AVG(price) AS measure_value FROM gold.fact_sales
+UNION ALL
+SELECT 'Total no of orders', COUNT(DISTINCT order_number) AS measure_value FROM gold.fact_sales
+UNION ALL
+SELECT 'Total no of products', COUNT(product_key)FROM gold.dim_products
+UNION ALL
+SELECT 'Total no of customers', COUNT(customer_id) FROM gold.dim_customers
