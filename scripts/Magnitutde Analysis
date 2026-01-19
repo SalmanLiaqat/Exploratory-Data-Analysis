@@ -1,0 +1,79 @@
+
+
+---Magnitutde Analysis--
+--Find total customers by countries
+--Find total custoemrs by gender
+--Find total producst by category
+--waht is the average costs in each category?
+--what is the total revenue is geneareted by each category?
+--what is the total revenue is geneareted by each customers
+--what si the distribution of sold items across countries?
+
+--Find total customers by countries
+SELECT 
+country AS country_name,
+COUNT(DISTINCT customer_id) AS Total_cutsomers
+FROM gold.dim_customers
+GROUP BY country
+ORDER BY Total_cutsomers DESC
+
+--Find total custoemrs by gender
+SELECT 
+gender AS gender,
+COUNT(DISTINCT customer_id) AS Total_cutsomers
+FROM gold.dim_customers
+GROUP BY gender
+ORDER BY Total_cutsomers DESC
+
+
+--Find total producst by category
+SELECT 
+category AS category,
+COUNT(DISTINCT product_id) AS Total_products
+FROM gold.dim_products
+GROUP BY category
+ORDER BY Total_products DESC
+
+
+--waht is the average costs in each category?
+--Find total producst by category
+SELECT 
+category AS category,
+AVG(cost) AS Average_costs
+FROM gold.dim_products
+GROUP BY category
+ORDER BY Average_costs DESC
+
+--what is the total revenue is geneareted by each category?
+
+SELECT 
+category AS category,
+SUM(cost) AS Total_costs
+FROM gold.dim_products
+GROUP BY category
+ORDER BY Total_costs DESC
+
+--what is the total revenue is geneareted by each customers
+
+SELECT 
+customer_key AS customer_id,
+SUM(price) AS Total_revenue
+FROM gold.fact_sales
+GROUP BY customer_key
+ORDER BY Total_revenue DESC
+
+--what is the distribution of sold items across countries?
+
+SELECT 
+country,
+SUM(quantity) AS solditems
+FROM gold.dim_customers
+LEFT JOIN gold.fact_sales
+ON fact_sales.customer_key = dim_customers.customer_key
+GROUP BY country
+
+
+
+SELECT TOP 5* FROM gold.dim_customers
+SELECT TOP 5* FROM gold.dim_products
+SELECT TOP 5* FROM gold.fact_sales
